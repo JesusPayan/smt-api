@@ -12,15 +12,15 @@ import java.time.LocalDate;
 public class Notes {
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne
-    private Student estudiante;
+    @Column(name = "student_id")
+    private Long studentID;
 
     @ManyToOne
-    private Course course;
+    @Column(name = "course_id")
+    private Long courseID;
 
-    private String modulo; // nombre del tema o clase
-    private LocalDate fecha;
-    private String estado; // Completado, En progreso, Pendiente
 }

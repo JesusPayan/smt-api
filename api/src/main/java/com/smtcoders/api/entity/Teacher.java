@@ -1,9 +1,6 @@
 package com.smtcoders.api.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,10 +12,12 @@ import lombok.Setter;
 public class Teacher {
     @Id
     @GeneratedValue
+    @Column(name = "teacher_id")
     private Long id;
-    private String nombre;
-    private String correo;
-    private String especialidad;
-    private String telefono;
-
+    @Column(name = "teache_name")
+    private String name;
+    @Column(name = "teacher_email")
+    private String email;
+    @Column(name = "teacher_password")
+    private boolean password;
 }

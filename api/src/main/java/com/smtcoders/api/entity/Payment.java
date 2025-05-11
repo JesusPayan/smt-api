@@ -1,10 +1,11 @@
 package com.smtcoders.api.entity;
+
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.util.Date;
+
 @Getter
 @Setter
 @Entity
@@ -12,10 +13,14 @@ import java.time.LocalDate;
 public class Payment {
     @Id
     @GeneratedValue
+    @Column(name = "payment_id")
     private Long id;
 
     @ManyToOne
-    private Student student;
+    @JoinColumn(name = "student_id")
+    private Long student;
 
-    private LocalDate fechaInscripcion;
+
+    @Column(name = "payment_date")
+    private Date paymentDate;
 }

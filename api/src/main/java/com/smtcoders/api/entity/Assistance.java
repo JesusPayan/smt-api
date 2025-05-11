@@ -1,14 +1,10 @@
 package com.smtcoders.api.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +16,7 @@ import java.time.LocalDate;
 public class Assistance {
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne
@@ -27,7 +24,8 @@ public class Assistance {
 
     @ManyToOne
     private Course course;
-
-    private LocalDate date;
+    @Column(name = "current_date")
+    private Data currentDate;
+    @Column(name = "Assitance")
     private Boolean assistance;
 }

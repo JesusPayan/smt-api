@@ -15,11 +15,15 @@ public class CourseStudent {
     private Long id;
 
     @ManyToOne
-    private Student student;
+    @Column(name = "student_id")
+    private Long student_id;
 
     @ManyToOne
-    private Course course;
+    @Column(name = "course_id")
+    private Long course_id;
 
-    private Double note; // Por ejemplo: 8.5, 9.0
-    private String details;
+    @Column(name = "course_note")
+    private Double note;
+    @Column(name = "course_detail")
+    private String detail;
 }

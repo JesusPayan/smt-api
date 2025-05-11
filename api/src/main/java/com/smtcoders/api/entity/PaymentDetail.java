@@ -7,16 +7,20 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "PaymentDetail")
+@Table(name = "payment_detail")
 public class PaymentDetail {
     @Id
     @GeneratedValue
+    @Column(name = "payment_id_detail")
     private Long id;
 
     @ManyToOne
-    private Payment payment;
+    @Column(name = "payment_id")
+    private Long paymentID;
 
+    @Column(name = "payment_amount")
     private Double amount;
+    @Column(name = "payment_date")
     private LocalDate date;
 
 }
