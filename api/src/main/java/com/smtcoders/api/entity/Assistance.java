@@ -8,24 +8,24 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-@Getter
-@Setter
+import java.util.Date;
+
 @Entity
-@Table(name = "Assistance")
-public class Assistance {
+@Table(name = "assistance")
+public class Assistance implements Serializable {
     @Id
-    @GeneratedValue
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "identifier")
     private Long id;
 
-    @ManyToOne
-    private Student student;
+    @Column(name = "assistance    _date")
+    private Date currentDate;
+    @Column(name = "student_present")
+    private Boolean isPresent;
 
     @ManyToOne
-    private Course course;
-    @Column(name = "current_date")
-    private Data currentDate;
-    @Column(name = "Assitance")
-    private Boolean assistance;
+    @JoinColumn(name = "student", referencedColumnName = "student_id")
+    private Student student;
 }

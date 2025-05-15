@@ -1,36 +1,38 @@
 package com.smtcoders.api.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.proxy.HibernateProxy;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 @Getter
 @Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name = "course")
-public class Course {
+public class Course implements Serializable {
 
         @Id
         @GeneratedValue
-        @Column(name = "id")
+        @Column(name = "course_id")
         private Long id;
-
         @Column(name = "course_name")
         private String courseName;
         @Column(name ="course_description")
-        private String descripcion;
-
+        private String description;
+        @Column(name ="course_start_date")
+        private Date courseStart;
+        @Column(name ="course_end_date")
+        private Date courseEnd;
 
         @ManyToOne
-        @Column(name ="teacher_id")
-        private Long teacherID;
-        @Column(name ="course_start")
-        private Date courseStart;
-        @Column(name ="course_end")
-        private Date courseEnd;
+        @JoinColumn(name = "student_id")
+        private Student student;
+
+
 
 }
