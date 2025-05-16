@@ -4,6 +4,7 @@ package com.smtcoders.api.controller;
 import com.smtcoders.api.ApiResponse;
 import com.smtcoders.api.entity.Student;
 import com.smtcoders.api.repository.StudentRepository;
+import com.smtcoders.api.service.EmailService;
 import com.smtcoders.api.service.StudentService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,8 @@ public class StudentController {
     private StudentRepository studentRepository;
     @Autowired
     StudentService studentService;
+    @Autowired
+    EmailService emailService;
 
     @PostMapping("/register")
     public ApiResponse<Student> createStudent (@RequestBody Student student) {
@@ -45,12 +48,19 @@ public class StudentController {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND).getBody();
         }else{
             if(studentService.createNewStudent(student).equals("Estudiante Guardado con Exito")){
-                 response = new ApiResponse<>(
+                boolean successSend;
+                response = new ApiResponse<>(
                         true,
                         "Estudiante Guardado con Exito",
                         student,
                         HttpStatus.OK.value()
                 );
+                successSend = emailService.sendSimpleMessage(student.getEmail(),"Bienvienido "+student.getName()+" a SmartCoders","Te compartimos tu contraseña de acceso:"+student.getPassword());
+                if(successSend){
+                    log.info("Corre enviado exitosamente");
+                }else {
+                    log.info("Error al mandar el correo.");
+                }
                 return ResponseEntity.ok(response).getBody();
             }
 
