@@ -1,15 +1,9 @@
 package com.smtcoders.api.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -25,9 +19,10 @@ public class Payment implements Serializable {
     @Column(name = "payment_amount")
     private Double paymentAmount;
 
+    @Column(name = "payamente_student_receipt")
+    private String paymenteStudentReceipt;
 
-    @ManyToOne
-    @JoinColumn(name = "student", referencedColumnName = "student_id")
-    private Student student;
-
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private Long user;
+    
 }

@@ -2,14 +2,10 @@ package com.smtcoders.api.entity;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -20,12 +16,12 @@ public class Assistance implements Serializable {
     @Column(name = "identifier")
     private Long id;
 
-    @Column(name = "assistance    _date")
+    @Column(name = "assistance_date")
     private Date currentDate;
     @Column(name = "student_present")
     private Boolean isPresent;
 
     @ManyToOne
-    @JoinColumn(name = "student", referencedColumnName = "student_id")
-    private Student student;
+    @JoinColumn(name = "user", referencedColumnName = "user_id")
+    private User user;
 }

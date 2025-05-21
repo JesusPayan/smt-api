@@ -1,6 +1,6 @@
 package com.smtcoders.api.service;
 
-import com.smtcoders.api.entity.Student;
+import com.smtcoders.api.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface StudentService {
 
     Optional findByEmail(String email);
-    String createNewStudent(Student newStudent);
+    String createNewStudent(User newUser);
 }

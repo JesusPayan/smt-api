@@ -1,6 +1,7 @@
 package com.smtcoders.api.service;
 
-import com.smtcoders.api.entity.Student;
+import com.smtcoders.api.entity.Role;
+import com.smtcoders.api.entity.User;
 import com.smtcoders.api.repository.StudentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.Optional;
 public class StudentServiceImp implements StudentService {
     @Autowired
     StudentRepository studentRepository;
-    Student currentStudent;
+    User currentUser;
     String decodePassword,encodePassword;
 
 
@@ -27,19 +28,20 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
-    public String createNewStudent(Student newStudent){
+    public String createNewStudent(User newUser){
         String message ="";
-        //Student student = new Student();
-        log.info("[Service:Student:Create New]" + newStudent);
+        //User student = new User();
+        log.info("[Service:User:Create New]" + newUser);
             decodePassword = PasswordGenerator.generatePassword(8);
             log.info("Password decodificada -> " + decodePassword);
             encodePassword = PasswordGenerator.encodePassword(decodePassword);
             log.info("Password decodificada -> " + encodePassword);
-            newStudent.setPassword(encodePassword);
-            newStudent.setCreateTimeStamp(LocalDate.now());
-            newStudent.setStatus(true);
+            newUser.setPassword(encodePassword);
+            newUser.setCreateTimeStamp(LocalDate.now());
+            newUser.setStatus(true);
+            newUser.setRole(1L);
             try {
-                studentRepository.saveAndFlush(newStudent);
+                studentRepository.saveAndFlush(newUser);
                 message = "Estudiante Guardado con Exito";
             }catch (Exception e){
                 log.info(Arrays.toString(e.getStackTrace()));
@@ -47,7 +49,7 @@ public class StudentServiceImp implements StudentService {
             }
 
 
-        log.info("Objeto Student Actualizado" + newStudent.getName()+newStudent.getEmail());
+        log.info("Objeto User Actualizado" + newUser.getName()+ newUser.getEmail());
         return message;
     }
 }

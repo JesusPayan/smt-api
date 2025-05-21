@@ -2,11 +2,9 @@ package com.smtcoders.api.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.proxy.HibernateProxy;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -30,8 +28,8 @@ public class Course implements Serializable {
         private Date courseEnd;
 
         @ManyToOne
-        @JoinColumn(name = "student_id")
-        private Student student;
+        @JoinColumn(name = "user_id")
+        private User user;
 
 
 
