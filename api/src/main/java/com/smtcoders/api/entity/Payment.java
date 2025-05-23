@@ -8,21 +8,27 @@ import java.util.Date;
 
 @Entity
 @Table(name = "payment")
-public class Payment implements Serializable {
+public class Payment {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payment_id")
     private Long id;
 
-    @Column(name = "payment_date")
-    private Date paymentDate;
-    @Column(name = "payment_amount")
-    private Double paymentAmount;
+    @JoinColumn(name = "user_id")
+    private Long userID;
 
-    @Column(name = "payamente_student_receipt")
-    private String paymenteStudentReceipt;
+    @Column(name = "payment_status")
+    private String paymentStatus;
 
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private Long user;
-    
+    public Payment() {
+    }
+    @ManyToOne
+    @JoinColumn(name = "user_id") // Crea una FK en Payment hacia Customer
+    private User user;
+
+    public Payment(Long userID, String paymentStatus) {
+        this.userID = userID;
+        this.paymentStatus = paymentStatus;
+    }
+
 }

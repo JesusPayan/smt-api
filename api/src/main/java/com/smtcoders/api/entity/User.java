@@ -49,7 +49,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Assistance> userAssistanceList;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userID",cascade = CascadeType.ALL)
     private List<Payment> studenPaymentList;
 
 

@@ -1,7 +1,9 @@
 package com.smtcoders.api.service;
 
+import com.smtcoders.api.entity.Payment;
 import com.smtcoders.api.entity.Role;
 import com.smtcoders.api.entity.User;
+import com.smtcoders.api.repository.PaymentRepository;
 import com.smtcoders.api.repository.StudentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import java.util.Optional;
 public class StudentServiceImp implements StudentService {
     @Autowired
     StudentRepository studentRepository;
+    @Autowired
+    PaymentRepository paymentRepository;
     User currentUser;
     String decodePassword,encodePassword;
 
@@ -42,6 +46,8 @@ public class StudentServiceImp implements StudentService {
             newUser.setRole(1L);
             try {
                 studentRepository.saveAndFlush(newUser);
+                //paymentRepository.InsertFirstRegisterPayment("Pendiente",newUser.getId());
+                paymentRepository.saveAndFlush(createNewFirstPayment(newUser.getId()));
                 message = "Estudiante Guardado con Exito";
             }catch (Exception e){
                 log.info(Arrays.toString(e.getStackTrace()));
@@ -52,4 +58,13 @@ public class StudentServiceImp implements StudentService {
         log.info("Objeto User Actualizado" + newUser.getName()+ newUser.getEmail());
         return message;
     }
+
+    private Payment createNewFirstPayment(Long idStudent){
+        Payment newFirstPayment = new Payment(idStudent,"Pendiente");
+
+        return newFirstPayment;
+
+    }
+
 }
+

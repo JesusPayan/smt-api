@@ -1,0 +1,129 @@
+🔁 1. @ManyToOne (muchos a uno) con llave foránea
+✅ Caso común: Muchos pagos pertenecen a un cliente
+java
+Copiar
+Editar
+@Entity
+public class Payment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id") // Crea una FK en Payment hacia Customer
+    private Customer customer;
+}
+java
+Copiar
+Editar
+@Entity
+public class Customer {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // opcional
+    @OneToMany(mappedBy = "customer")
+    private List<Payment> payments;
+}
+🔁 2. @OneToMany unidireccional con llave foránea
+Evita usarlo sin mappedBy, porque JPA termina creando una tabla intermedia.
+
+✅ Caso: un cliente tiene muchos pagos
+java
+Copiar
+Editar
+@Entity
+public class Customer {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToMany(mappedBy = "customer") // el atributo en Payment que apunta a Customer
+    private List<Payment> payments;
+}
+java
+Copiar
+Editar
+@Entity
+public class Payment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id") // Foreign key en tabla 'payment'
+    private Customer customer;
+}
+🔁 3. @OneToOne con Foreign Key (ya lo vimos)
+✅ Dos entidades con relación 1:1 y FK en una de ellas
+java
+Copiar
+Editar
+@Entity
+public class User {
+
+    @Id
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "profile_id") // FK hacia Profile
+    private Profile profile;
+}
+🔁 4. @OneToOne con clave primaria compartida
+✅ Dos entidades que comparten el mismo ID
+java
+Copiar
+Editar
+@Entity
+public class Profile {
+
+    @Id
+    private Long id;
+
+    @OneToOne
+    @MapsId // usa el mismo ID que la entidad relacionada
+    @JoinColumn(name = "id")
+    private User user;
+}
+🔁 5. @ManyToMany con tabla intermedia
+✅ Muchos usuarios pueden tener muchos roles
+java
+Copiar
+Editar
+@Entity
+public class User {
+
+    @Id
+    private Long id;
+
+    @ManyToMany
+    @JoinTable(
+        name = "user_role",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
+}
+java
+Copiar
+Editar
+@Entity
+public class Role {
+
+    @Id
+    private Long id;
+
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
+}
+🧠 Tips prácticos
+Relación	¿Dónde va la FK?	Anotación
+OneToMany / ManyToOne	En la entidad del lado @ManyToOne	@JoinColumn
+OneToOne con FK	En una de las dos entidades	@JoinColumn
+OneToOne con PK compartida	Ambas usan la misma PK	@MapsId, @PrimaryKeyJoinColumn
+ManyToMany	Tabla intermedia	@JoinTable
