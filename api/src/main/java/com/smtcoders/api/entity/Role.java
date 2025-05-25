@@ -29,6 +29,12 @@ public class Role implements Serializable {
     //private Long user;
     //private Long user;
 
-    @OneToMany(mappedBy = "role",cascade = CascadeType.ALL)
-    private List<User> userList;
+    @OneToOne
+    @JoinColumn(name="role")
+    private User user;
+
+    public Role(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

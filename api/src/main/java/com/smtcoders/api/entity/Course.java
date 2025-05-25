@@ -1,10 +1,17 @@
 package com.smtcoders.api.entity;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.ManyToOne;
+
+import java.security.Timestamp;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
+
+
 
 @Getter
 @Setter
@@ -31,6 +38,30 @@ public class Course implements Serializable {
         @JoinColumn(name = "user_id")
         private User user;
 
-
-
 }
+/*
+@Entity
+@Table(name = "courses")
+public class Course {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+
+        private String title;
+        private String description;
+        private String category;
+
+        @Enumerated(EnumType.STRING)
+        private Level level = Level.BASIC;
+
+        @ManyToOne
+        private User instructor;
+
+        private Boolean isPublished = false;
+        private Timestamp createdAt;
+
+        public enum Level {
+                BASIC, INTERMEDIATE, ADVANCED
+        }
+}
+*/

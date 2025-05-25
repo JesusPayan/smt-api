@@ -39,9 +39,12 @@ public class User implements Serializable {
     @Column(name = "role_id")
     private Long role;
 
-    /*
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Role> roleList;*/
+
+    //@OneToOne//(mappedBy = "role",cascade = CascadeType.ALL)
+    //private List<Role> roleList;
+    //private Role role;
+
+
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Course> userCourseList;
@@ -49,8 +52,40 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Assistance> userAssistanceList;
 
-    @OneToMany(mappedBy = "userID",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Payment> studenPaymentList;
 
 
 }
+
+/*
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.List;
+
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String fullName;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.STUDENT;
+
+    private Timestamp createdAt;
+
+    public enum Role {
+        STUDENT, INSTRUCTOR, ADMIN
+    }
+}
+*/

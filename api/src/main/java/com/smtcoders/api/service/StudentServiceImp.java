@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import utils.PasswordGenerator;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Optional;
 
 
@@ -47,23 +49,24 @@ public class StudentServiceImp implements StudentService {
             try {
                 studentRepository.saveAndFlush(newUser);
                 //paymentRepository.InsertFirstRegisterPayment("Pendiente",newUser.getId());
-                paymentRepository.saveAndFlush(createNewFirstPayment(newUser.getId()));
+               // paymentRepository.saveAndFlush(createNewFirstPayment(newUser  ));
                 message = "Estudiante Guardado con Exito";
-            }catch (Exception e){
+            }catch (Exception e) {
                 log.info(Arrays.toString(e.getStackTrace()));
                 message = "Estudiante no se pudo Registrar";
             }
-
-
         log.info("Objeto User Actualizado" + newUser.getName()+ newUser.getEmail());
         return message;
     }
 
-    private Payment createNewFirstPayment(Long idStudent){
-        Payment newFirstPayment = new Payment(idStudent,"Pendiente");
+    private Payment createNewFirstPayment(User user){
+        Date today = new Date();
+        Date todayDate = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        String currentDate = sdf.format(todayDate);
+        Payment newFirstPayment = new Payment(user,"Pendiente", todayDate);
 
         return newFirstPayment;
-
     }
 
 }

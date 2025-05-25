@@ -1,9 +1,11 @@
 package com.smtcoders.api.service;
 
+import com.smtcoders.api.entity.Payment;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface PaymentService {
 
-    Boolean registreFirstTimeStudent(String paymentStatus,Long StudentID);
+
+    String addNewPayment(Payment newPayment);
 }
