@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -62,5 +63,12 @@ public class PaymentController {
         }
 
         return response;
+    }
+    //http://localhost:8080/api/auth/payments/student/6
+
+    @GetMapping("/student/{id}")
+    List<Payment> getAllPaymentbyid(@PathVariable("userid") Long userID){
+      log.info("Input que llega a controlador Payment "+ userID);
+      return   paymentService.getAllPayments(userID);
     }
 }

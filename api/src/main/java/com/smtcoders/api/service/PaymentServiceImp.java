@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 
 @Slf4j
@@ -29,6 +31,14 @@ public class PaymentServiceImp implements PaymentService{
 
         return returnMessage;
     }
+
+    @Override
+    public List<Payment> getAllPayments(Long id) {
+       // return repository.findAllById(Collections.singleton(id));
+        log.info("input que llega al controllador ");
+        return repository.findAllPaymentsByUserId(id);
+    }
+
 }
 
 

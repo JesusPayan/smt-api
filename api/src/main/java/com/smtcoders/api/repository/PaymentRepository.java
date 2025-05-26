@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
@@ -15,6 +17,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     //@Modifying
     //@Query(value = "insert into Payment(payment_status,userid) values (=?,=?) commit;",nativeQuery = true)
     //void InsertFirstRegisterPayment(String paymentStatus,Long StudentID);
-
+    //@Query(value = "Select * from Payment where user_id=?")
+    List<Payment> findAllPaymentsByUserId(Long id);
 
 }
