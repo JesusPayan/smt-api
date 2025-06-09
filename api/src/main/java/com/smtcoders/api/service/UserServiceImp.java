@@ -1,10 +1,10 @@
 package com.smtcoders.api.service;
 
-import com.smtcoders.api.entity.Payment;
+//import com.smtcoders.api.entity.Payment;
 import com.smtcoders.api.entity.Role;
 import com.smtcoders.api.entity.User;
-import com.smtcoders.api.repository.PaymentRepository;
-import com.smtcoders.api.repository.StudentRepository;
+//import com.smtcoders.api.repository.PaymentRepository;
+import com.smtcoders.api.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,18 +19,19 @@ import java.util.Optional;
 
 @Component
 @Slf4j
-public class StudentServiceImp implements StudentService {
+public class UserServiceImp implements UserService {
     @Autowired
-    StudentRepository studentRepository;
-    @Autowired
-    PaymentRepository paymentRepository;
+    UserRepository userRepository;
+    //@Autowired
+//    PaymentRepository paymentRepository;
     User currentUser;
     String decodePassword,encodePassword;
 
 
     @Override
-    public Optional findByEmail(String email) {
-        return studentRepository.findByEmail(email);
+    public Optional<User> findByEmail(String email) {
+
+        return userRepository.findByEmail(email);
     }
 
     @Override
@@ -43,11 +44,11 @@ public class StudentServiceImp implements StudentService {
             encodePassword = PasswordGenerator.encodePassword(decodePassword);
             log.info("Password decodificada -> " + encodePassword);
             newUser.setPassword(encodePassword);
-            newUser.setCreateTimeStamp(LocalDate.now());
+            //newUser.setCreateTimeStamp(LocalDate.now());
             newUser.setStatus(true);
-            newUser.setRole(1L);
+            newUser.setRole(Role.ESTUDIANTE);
             try {
-                studentRepository.saveAndFlush(newUser);
+                userRepository.saveAndFlush(newUser);
                 //paymentRepository.InsertFirstRegisterPayment("Pendiente",newUser.getId());
                // paymentRepository.saveAndFlush(createNewFirstPayment(newUser  ));
                 message = "Estudiante Guardado con Exito";
@@ -58,16 +59,16 @@ public class StudentServiceImp implements StudentService {
         log.info("Objeto User Actualizado" + newUser.getName()+ newUser.getEmail());
         return message;
     }
-
+/*
     private Payment createNewFirstPayment(User user){
         Date today = new Date();
         Date todayDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         String currentDate = sdf.format(todayDate);
-        Payment newFirstPayment = new Payment(user,"Pendiente", todayDate);
+        Payment newFirstPayment = new Payment(user.getId(),"Pendiente", todayDate);
 
         return newFirstPayment;
-    }
+    }*/
 
 }
 

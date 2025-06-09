@@ -22,9 +22,9 @@ public class Payment {
     @Column(name = "payment_status")
     private String paymentStatus;
 
-    @ManyToOne
+//    @ManyToOne
     @JoinColumn(name = "user_id") // Crea una FK en Payment hacia Customer
-    private User user;
+    private Long user;
 
     @Column(name = "payment_date")
     private String paymentDate;
@@ -37,13 +37,18 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(User user, String paymentStatus, String paymentDate, byte[] photo ) {
-        this.user = user;
+    public Payment(Long id, String paymentStatus, Long user, String paymentDate, Double paymentAmount, byte[] datos) {
+        this.id = id;
         this.paymentStatus = paymentStatus;
+        this.user = user;
         this.paymentDate = paymentDate;
-        this.datos= photo;
+        this.paymentAmount = paymentAmount;
+        this.datos = datos;
     }
 
-    public Payment(User user, String pendiente, Date todayDate) {
+    public Payment(Long id, String s, String paymentRecipetDate, byte[] fileBytes) {
+    }
+
+    public Payment(Long , java.lang.String , java.util.Date ) {
     }
 }

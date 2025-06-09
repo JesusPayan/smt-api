@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public interface StudentService {
+public interface UserService {
 
     Optional findByEmail(String email);
     String createNewStudent(User newUser);

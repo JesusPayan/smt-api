@@ -1,11 +1,10 @@
 package com.smtcoders.api.controller;
 
 import com.smtcoders.api.ApiResponse;
-import com.smtcoders.api.entity.Payment;
+//import com.smtcoders.api.entity.Payment;
 import com.smtcoders.api.entity.User;
-import com.smtcoders.api.repository.PaymentRepository;
-import com.smtcoders.api.repository.StudentRepository;
-import com.smtcoders.api.service.PaymentService;
+import com.smtcoders.api.repository.UserRepository;
+//import com.smtcoders.api.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +27,7 @@ public class PaymentController {
     @Autowired
     PaymentService paymentService;
     @Autowired
-    StudentRepository studentRepository;
+    UserRepository userRepository;
     @PostMapping("/register")
     ApiResponse<Payment> registrePayment(
             @RequestParam("amount")Double amount,
@@ -40,12 +37,12 @@ public class PaymentController {
         ApiResponse<Payment> response;
         System.out.println("Entro al servicio para registro de Pago");
         log.info("amount "+amount +" Date "+ paymentRecipetDate +" StudentID "+studentID );
-        Optional<User> currentStudent = studentRepository.findById(studentID);
+        Optional<User> currentStudent = userRepository.findById(studentID);
         User user = currentStudent.get();
        /* SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         Date currentDate = formato.parse(paymentRecipetDate);*/
         byte[] fileBytes = receipt.getInputStream().readAllBytes();
-        Payment newPayment = new Payment(user,"-",paymentRecipetDate,fileBytes);
+        Payment newPayment = new Payment(user.getId(),"-",paymentRecipetDate,fileBytes);
         if(paymentService.addNewPayment(newPayment).equals("Pago registrado con exito")){
             response = new ApiResponse<>(
                     true,

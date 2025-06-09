@@ -19,24 +19,27 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "course")
-public class Course implements Serializable {
+public class Course  {
 
         @Id
-        @GeneratedValue
-        @Column(name = "course_id")
+
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
         @Column(name = "course_name")
         private String courseName;
-        @Column(name ="course_description")
-        private String description;
-        @Column(name ="course_start_date")
-        private Date courseStart;
-        @Column(name ="course_end_date")
-        private Date courseEnd;
+        @Column(name = "course_level")
+        private String courseLevel;
 
-        @ManyToOne
-        @JoinColumn(name = "user_id")
-        private User user;
+//        @Column(name ="course_description")
+//        private String description;
+//        @Column(name ="course_start_date")
+//        private Date courseStart;
+//        @Column(name ="course_end_date")
+//        private Date courseEnd;
+
+//        @ManyToOne
+//        @JoinColumn(name = "user_id")
+//        private User user;
 
 }
 /*
