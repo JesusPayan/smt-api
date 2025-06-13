@@ -1,16 +1,7 @@
 package com.smtcoders.api.entity;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.ManyToOne;
-
-import java.security.Timestamp;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.io.Serializable;
-import java.util.Date;
-
 
 
 @Getter
@@ -18,17 +9,40 @@ import java.util.Date;
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "course")
-public class Course  {
+@Table(name = "resource")
+public class Resource  {
 
         @Id
 
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
-        @Column(name = "course_name")
-        private String courseName;
-        @Column(name = "course_level")
-        private String courseLevel;
+        @Column(name = "resourse_name")
+        private String name;
+
+        @Column(name = "carrier_path")
+        private String carrierPath;
+        @Column(name = "type")
+        private String type;
+        @Column(name = "technology_stack")
+        private String tecnologyStack;
+        @Column(name = "point")
+        private Integer score;
+        @Column(name = "description")
+        private String description;
+        @Column(name = "available")
+        private String available;
+
+        public Resource(String name, String carrierPath, String type, String tecnologyStack, Integer score, String description, String available) {
+
+                this.name = name;
+                this.carrierPath = carrierPath;
+                this.type = type;
+                this.tecnologyStack = tecnologyStack;
+                this.score = score;
+                this.description = description;
+                this.available = available;
+        }
+
 
 //        @Column(name ="course_description")
 //        private String description;
