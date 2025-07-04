@@ -12,4 +12,5 @@ public interface PaymentService {
     String addNewPayment(Payment newPayment);
 
     List<Payment> getAllPayments(Long id);
+    List<Payment> getAllPayments();
 }

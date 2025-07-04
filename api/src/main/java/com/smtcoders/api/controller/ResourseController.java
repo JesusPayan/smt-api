@@ -80,7 +80,7 @@ public class ResourseController {
         List<Resource> resourceList;
         resourceList = service.findAll();
         if (resourceList.isEmpty()){
-            response.setStatusCode(200);
+            response.setStatusCode(404);
             response.setMessage("Recursos No Encontrados");
             response.setSuccess(false);
             response.setData(resourceList);
@@ -130,7 +130,7 @@ public class ResourseController {
     @PutMapping("/update")
     public ResponseEntity<ApiResponse<ResourceDTO>> updateResource(@RequestBody ResourceDTO currResource) {
         Resource currentResource;
-        log.info("Informacion que llega al controlador" + currResource.getId());
+        log.info("Informacion que llega al controlador update" + currResource.getId());
         // Casteamos el objeto DTO para convertirlo a un entity de Resource
         currentResource = Converter.converToEntity(currResource);
 
@@ -146,10 +146,10 @@ public class ResourseController {
         Resource currentResource;
         log.info("Informacion que llega al controlador"+ currResource.getId());
         // Casteamos el objeto DTO para convertirlo a un entity de Resource
-        currentResource = Converter.converToEntity(currResource);
-
+//        currentResource = Converter.converToEntity(currResource);
+        //log.info(String.valueOf(currResource.getId()));
         // Enviamos al servicio para implementar la logica de negocio
-        service.deleteCurrentResource(currentResource);
+        service.deleteCurrentResource(currResource.getId());
         response.setMessage("Recurso Eliminado con Exito");
         response.setStatusCode(200);
         response.setData(currResource);

@@ -13,22 +13,3 @@ public class ApiApplication {
 
 
 }
-public class HelloWorld {
-	public static void main(String[] args) {
-		System.out.println("");
-		boolean alive = true;
-		while (alive) {
-			code();
-			drinkTea();
-			repeat();
-		}
-
-	}
-sout
-	private static void code() {
-	}
-	private static void drinkTea() {
-	}
-	private static void repeat() {
-	}
-}

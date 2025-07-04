@@ -17,7 +17,23 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     //@Modifying
     //@Query(value = "insert into Payment(payment_status,userid) values (=?,=?) commit;",nativeQuery = true)
     //void InsertFirstRegisterPayment(String paymentStatus,Long StudentID);
-    //@Query(value = "Select * from Payment where user_id=?")
+    @Query(value = "select * from payment where user=?",nativeQuery = true)
     List<Payment> findAllPaymentsByUserId(Long id);
+    @Query(value = """
+    SELECT 
+      p.payment_id AS paymentId,
+      u.user_name AS userName,
+      p.datos,
+      p.paymet_amount AS paymentAmount,
+      p.payment_date AS paymentDate,
+      p.payment_dif AS paymentDif,
+      p.payment_status AS paymentStatus,
+      u.next_payment AS nextPayment
+    FROM payment p
+    LEFT JOIN user u ON u.user_id = p.user_id
+    """, nativeQuery = true)
+    List<Object[]> findAllRaw();
+    List<Payment> findAll();
+
 
 }

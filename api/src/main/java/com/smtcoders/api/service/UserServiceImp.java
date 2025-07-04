@@ -12,9 +12,11 @@ import utils.PasswordGenerator;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Predicate;
+
+import static com.smtcoders.api.entity.Role.ADMIN;
+import static com.smtcoders.api.entity.Role.ESTUDIANTE;
 
 
 @Component
@@ -26,7 +28,7 @@ public class UserServiceImp implements UserService {
 //    PaymentRepository paymentRepository;
     User currentUser;
     String decodePassword,encodePassword;
-
+    List<User> userList;
 
     @Override
     public Optional<User> findByEmail(String email) {
@@ -45,8 +47,8 @@ public class UserServiceImp implements UserService {
             log.info("Password decodificada -> " + encodePassword);
             newUser.setPassword(encodePassword);
             //newUser.setCreateTimeStamp(LocalDate.now());
-            newUser.setStatus(true);
-            newUser.setRole(Role.ESTUDIANTE);
+            newUser.setUserStatus(true);
+            newUser.setRole(ESTUDIANTE);
             try {
                 userRepository.saveAndFlush(newUser);
                 //paymentRepository.InsertFirstRegisterPayment("Pendiente",newUser.getId());
@@ -59,16 +61,23 @@ public class UserServiceImp implements UserService {
         log.info("Objeto User Actualizado" + newUser.getName()+ newUser.getEmail());
         return message;
     }
-/*
-    private Payment createNewFirstPayment(User user){
-        Date today = new Date();
-        Date todayDate = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        String currentDate = sdf.format(todayDate);
-        Payment newFirstPayment = new Payment(user.getId(),"Pendiente", todayDate);
 
-        return newFirstPayment;
-    }*/
+    @Override
+    public List<User> findByRole(String role) {
+        log.info("Informacion que llega a la implementacion del servicio" + role);
+        List<User> auxList = userRepository.findAll().stream().toList();
 
+        switch (role){
+            case "ESTUDIANTE":
+                userList = auxList.stream().filter(user -> user.getRole().name().equals("ESTUDIANTE")).toList();
+            break;
+            case "ADMIN":
+                userList = userRepository.findAll().stream().filter(elements-> elements.getRole().equals(ADMIN.name())).toList();
+            break;
+        }
+        System.out.println(userList);
+
+        return userList;
+    }
 }
 

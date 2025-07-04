@@ -1,5 +1,4 @@
 package com.smtcoders.api.service;
-import com.smtcoders.api.dto.ResourceDTO;
 import com.smtcoders.api.entity.Resource;
 import com.smtcoders.api.repository.ResourceRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +17,7 @@ public class ResourceServiceImp implements ResourceService{
 
     @Override
     public Optional<Resource> findByName(String name) {
+        log.info(name);
         return repository.findByName(name);
     }
     String message;
@@ -56,23 +56,29 @@ public class ResourceServiceImp implements ResourceService{
 
     @Override
     public String updateCurrentResource(Resource resource) {
-        Optional<Resource> currentResource;
-        log.info(String.valueOf(resource.getName()));
-        currentResource = findByName(resource.getName());
-        if(currentResource.isPresent()){
+        Resource currentResource;
 
-            repository.save(resource);
-            message = "Recurso Actualizado con exito";
-        }
+        log.info(String.valueOf(resource.getName()));
+        log.info(String.valueOf(resource.getName()));
+        log.info(String.valueOf(resource.getName()));
+        currentResource = findByName(resource.getName()).orElse(new Resource());
+//        Resource updatedResource = new Resource();
+//            updatedResource.setId(resource.getId());
+        currentResource.setName(resource.getName());
+        currentResource.setScore(resource.getScore());
+        currentResource.setTecnologyStack(resource.getTecnologyStack());
+        currentResource.setDescription(resource.getDescription());
+        currentResource.setAvailable(resource.getAvailable());
+        repository.save(currentResource);
+        message = "Recurso Actualizado con exito";
         return message;
     }
 
     @Override
-    public String deleteCurrentResource(Resource resource) {
+    public void deleteCurrentResource(Long id) {
 
+        log.info("informacion que llega al servicio" + id);
+        repository.deleteById(id);
 
-        repository.delete(resource);
-
-        return "Recurso Eliminado";
     }
 }

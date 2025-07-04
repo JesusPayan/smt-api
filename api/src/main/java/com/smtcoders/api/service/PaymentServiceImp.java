@@ -19,7 +19,7 @@ public class PaymentServiceImp implements PaymentService{
     String returnMessage = "";
 
     public String addNewPayment(Payment newPayment) {
-        log.info("Entrada al servicio de registros de pagos" + newPayment);
+        log.info("Entrada al servicio de registros de pagos" + newPayment.getPaymentAmount());
 
             try {
                 repository.saveAndFlush(newPayment);
@@ -35,10 +35,20 @@ public class PaymentServiceImp implements PaymentService{
     @Override
     public List<Payment> getAllPayments(Long id) {
        // return repository.findAllById(Collections.singleton(id));
-        log.info("input que llega al controllador ");
+        log.info("input que llega al controllador de pagos ");
         return repository.findAllPaymentsByUserId(id);
     }
 
+    @Override
+    public List<Payment> getAllPayments() {
+        log.info("implementacion del servicio de pagos mostrar todos.");
+        List<Payment> paymentList = repository.findAll();
+        for(Payment payment:paymentList){
+            log.info(payment.getUserName());
+
+        }
+        return repository.findAll();
+    }
 }
 
 

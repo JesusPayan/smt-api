@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
+
 @Getter
 @Setter
 @ToString
@@ -13,7 +14,6 @@ import lombok.*;
 public class Resource  {
 
         @Id
-
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
         @Column(name = "resourse_name")
@@ -31,6 +31,13 @@ public class Resource  {
         private String description;
         @Column(name = "available")
         private String available;
+
+//        @ManyToOne
+//        @JoinColumn(name = "user_resource", nullable = false, updatable = false)
+//        private User userResource;
+                @ManyToOne
+                @JoinColumn(name = "user", referencedColumnName = "user_id")
+                private User user;
 
         public Resource(String name, String carrierPath, String type, String tecnologyStack, Integer score, String description, String available) {
 

@@ -4,6 +4,7 @@ package com.smtcoders.api.controller;
 import com.smtcoders.api.ApiResponse;
 import com.smtcoders.api.dto.AuthResponse;
 import com.smtcoders.api.dto.LoginRequest;
+import com.smtcoders.api.entity.Resource;
 import com.smtcoders.api.entity.User;
 import com.smtcoders.api.repository.UserRepository;
 import com.smtcoders.api.service.AuthService;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
@@ -40,7 +42,11 @@ public class UserController {
     @Autowired
     private JwtUtil jwtUtil;
     ApiResponse<User> response;
+
+    ApiResponse<List<User>> responseList;
+
     Optional <User> currentStudent;
+    String message;
     boolean sucess,sucessSave;
     private  String returnMessage,token;
     @PostMapping("/register")
@@ -136,37 +142,38 @@ public class UserController {
 //        return ResponseEntity.ok(new AuthResponse(token));
             return  response;
     }
-//    @PostMapping("/register")
-//    public ResponseEntity<ApiResponse<User>> createStudent(@RequestBody User user) {
-//        log.info("[Controlador:User -> input:]" + user);
-//
-//        Optional<User> currentStudent = userService.findByEmail(user.getEmail());
-//        if (currentStudent.isPresent()) {
-//            return ResponseEntity
-//                    .status(HttpStatus.BAD_REQUEST)
-//                    .body(new ApiResponse<>(false, "Estudiante ya registrado", null, HttpStatus.BAD_REQUEST.value()));
-//        }
-//
-//        String result = userService.createNewStudent(user);
-//        if (!result.equals("Estudiante Guardado con Exito")) {
-//            return ResponseEntity
-//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(new ApiResponse<>(false, "Error al guardar estudiante", null, HttpStatus.INTERNAL_SERVER_ERROR.value()));
-//        }
-//
-//        emailService.sendSimpleMessage(
-//                user.getEmail(),
-//                "Bienvenido " + user.getName() + " a SmartCoders",
-//                "Te compartimos tu contraseña de acceso: " + user.getPassword()
-//        );
-//
-//        return ResponseEntity.ok(new ApiResponse<>(true, "Estudiante Guardado con Exito", user, HttpStatus.OK.value()));
-//    }
-//    @PostMapping("/login")
-//    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) throws Throwable {
-//        log.info("Login Request" +loginRequest.toString());
-//        log.info("Login Request" +loginRequest.toString());
-//        return ResponseEntity.ok(authService.login(loginRequest));
-//
-//    }
+    @GetMapping("/{role}")
+    public ResponseEntity<ApiResponse<List<User>>> showUsersByRole(@PathVariable String role){
+        log.info("Informacion que llega al controlador para mostrar los usuarios por role" + role);
+        List<User> userList;
+        ApiResponse<List<User>> response = new ApiResponse<>();
+        log.info("Controlador ShowUser by Role parametro de entrada" + role);
+        if(!role.isEmpty()){
+            userList = userService.findByRole(role);
+            if (!userList.isEmpty()){
+                response.setData(userList);
+                response.setStatusCode(200);
+                response.setMessage("Estudiantes Encontrados");
+                response.setSuccess(true);
+                return new ResponseEntity<>(response,HttpStatus.OK);
+            }else {
+
+                response.setStatusCode(404);
+                response.setMessage("Estudiantes No Encontrados");
+                response.setSuccess(true);
+                return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+
+            }
+
+
+        }else {
+            response.setStatusCode(404);
+            response.setMessage("Estudiantes No Encontrados");
+            response.setSuccess(true);
+            return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+
+        }
+    }
+
+
     }

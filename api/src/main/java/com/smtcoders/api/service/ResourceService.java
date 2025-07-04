@@ -21,5 +21,5 @@ public interface ResourceService {
 //    String updateCurrentResourse(Resource currentResource);
 
     String updateCurrentResource(Resource resource);
-    String deleteCurrentResource(Resource resource);
+    void deleteCurrentResource(Long ID);
 }
