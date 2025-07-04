@@ -1,33 +1,39 @@
 package com.smtcoders.api.entity;
 
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.Data;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import lombok.Getter;
-import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-@Getter
-@Setter
+import java.util.Date;
+
 @Entity
-@Table(name = "Assistance")
+@Data
+@Table(name = "assistance")
 public class Assistance {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "identifier")
     private Long id;
 
-    @ManyToOne
-    private Student student;
+    @Column(name = "assistance_date")
+    private LocalDate currentDate;
+//    @Column(name = "student_present")
+//    private Boolean isPresent;
 
-    @ManyToOne
-    private Course course;
 
-    private LocalDate date;
-    private Boolean assistance;
+    @JoinColumn(name = "user", referencedColumnName = "user_id")
+    private Long userID;
+
+    public Assistance() {
+    }
+
+    public Assistance(LocalDate currentDate, Long userID) {
+        this.currentDate = currentDate;
+        this.userID = userID;
+    }
+
 }

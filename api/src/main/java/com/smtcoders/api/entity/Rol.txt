@@ -1,0 +1,6 @@
+package com.smtcoders.api.entity;
+
+public enum Rol {
+    ADMIN,
+    ESTUDIANTE
+}

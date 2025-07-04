@@ -1,0 +1,98 @@
+/// Proyecto Spring Boot para enviar correos usando Gmail y App Password
+
+// 1. application.properties (src/main/resources/application.properties)
+spring.application.name=email-demo
+spring.profiles.active=dev
+
+# Configuración SMTP de Gmail
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=tu_email@gmail.com
+spring.mail.password=tu_app_password
+spring.mail.protocol=smtp
+
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.starttls.required=true
+spring.mail.properties.mail.smtp.ssl.protocols=TLSv1.2
+spring.mail.properties.mail.smtp.ssl.trust=smtp.gmail.com
+
+// 2. EmailService.java (src/main/java/com/example/emaildemo/service/EmailService.java)
+package com.example.emaildemo.service;
+
+import jakarta.mail.MessagingException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmailService {
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    public void sendEmail(String to, String subject, String body) throws MessagingException {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(body);
+        message.setFrom("tu_email@gmail.com");
+        mailSender.send(message);
+    }
+}
+
+// 3. EmailController.java (src/main/java/com/example/emaildemo/controller/EmailController.java)
+package com.example.emaildemo.controller;
+
+import com.example.emaildemo.service.EmailService;
+import jakarta.mail.MessagingException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/email")
+public class EmailController {
+
+    @Autowired
+    private EmailService emailService;
+
+    @PostMapping("/send")
+    public String sendEmail(@RequestParam String to,
+                            @RequestParam String subject,
+                            @RequestParam String body) {
+        try {
+            emailService.sendEmail(to, subject, body);
+            return "Correo enviado con éxito.";
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return "Error al enviar correo: " + e.getMessage();
+        }
+    }
+}
+
+// 4. EmailDemoApplication.java (src/main/java/com/example/emaildemo/EmailDemoApplication.java)
+package com.example.emaildemo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class EmailDemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(EmailDemoApplication.class, args);
+    }
+}
+
+// 5. pom.xml (dependencias clave)
+<!--
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-mail</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+        -->
